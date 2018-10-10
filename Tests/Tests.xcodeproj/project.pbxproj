@@ -932,10 +932,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-UnitTests/Pods-UnitTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/GCDWebServer/GCDWebServer.framework",
-				"${BUILT_PRODUCTS_DIR}/MixboxBuiltinIpc/MixboxBuiltinIpc.framework",
 				"${BUILT_PRODUCTS_DIR}/MixboxFoundation/MixboxFoundation.framework",
-				"${BUILT_PRODUCTS_DIR}/MixboxIpc/MixboxIpc.framework",
 				"${BUILT_PRODUCTS_DIR}/MixboxUiKit/MixboxUiKit.framework",
 				"${BUILT_PRODUCTS_DIR}/MixboxArtifacts/MixboxArtifacts.framework",
 				"${BUILT_PRODUCTS_DIR}/MixboxReporting/MixboxReporting.framework",
@@ -946,10 +943,7 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GCDWebServer.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MixboxBuiltinIpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MixboxFoundation.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MixboxIpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MixboxUiKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MixboxArtifacts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MixboxReporting.framework",
