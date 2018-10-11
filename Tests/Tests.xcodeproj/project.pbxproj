@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		178B9DFA8776E2FCAF9E2DED /* Pods_HostedAppLogicTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C496883D2B63192122269E5E /* Pods_HostedAppLogicTests.framework */; };
 		CC78DE2F21395BFE00599258 /* HierarchyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC78DE2E21395BFE00599258 /* HierarchyTests.swift */; };
 		CC78DE3221395C6000599258 /* HierarchyTestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC78DE3121395C6000599258 /* HierarchyTestsView.swift */; };
 		CE231EC4B835279D9570B7E0 /* Pods_XcuiTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D43FC00E93EFB0AB44044DF3 /* Pods_XcuiTests.framework */; };
@@ -85,6 +86,15 @@
 		F8676EE2215533D2007DDB7C /* NestedCallbacksToAppIpcMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8676EE1215533D2007DDB7C /* NestedCallbacksToAppIpcMethod.swift */; };
 		F8676EE4215533D9007DDB7C /* NestedCallbacksToAppIpcMethodHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8676EE3215533D9007DDB7C /* NestedCallbacksToAppIpcMethodHandler.swift */; };
 		F8676EE52155370D007DDB7C /* NestedCallbacksToAppIpcMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8676EE1215533D2007DDB7C /* NestedCallbacksToAppIpcMethod.swift */; };
+		F8891AB5216F7252009F5670 /* VisibilityCheckTestDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8891AB4216F7252009F5670 /* VisibilityCheckTestDataProvider.swift */; };
+		F8891AB7216F7258009F5670 /* VisibilityCheckTestsViewSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8891AB6216F7258009F5670 /* VisibilityCheckTestsViewSettings.swift */; };
+		F8891AB9216F725E009F5670 /* OverlappedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8891AB8216F725E009F5670 /* OverlappedView.swift */; };
+		F8891ABB216F7264009F5670 /* VisibilityCheckTestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8891ABA216F7264009F5670 /* VisibilityCheckTestsView.swift */; };
+		F8891ABD216F7690009F5670 /* VisibilityCheckTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8891ABC216F7690009F5670 /* VisibilityCheckTests.swift */; };
+		F8891AC7216F9108009F5670 /* VisibilityCheckTestDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8891AB4216F7252009F5670 /* VisibilityCheckTestDataProvider.swift */; };
+		F8891AC8216F9108009F5670 /* VisibilityCheckTestsViewSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8891AB6216F7258009F5670 /* VisibilityCheckTestsViewSettings.swift */; };
+		F8891ADA216F9C18009F5670 /* VisibilityCheckTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8891ABE216F76D6009F5670 /* VisibilityCheckTests.swift */; };
+		F8891AE3216FA8BD009F5670 /* EntryPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8891AE2216FA8BD009F5670 /* EntryPoint.swift */; };
 		F8A395B72146CE40000E9E44 /* MovingElementTestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A395B62146CE40000E9E44 /* MovingElementTestsView.swift */; };
 		F8A395B9214701FE000E9E44 /* ChangingHierarchyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A395B8214701FE000E9E44 /* ChangingHierarchyTests.swift */; };
 		F8A395BB2147C243000E9E44 /* ChangingHierarchyTestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A395BA2147C243000E9E44 /* ChangingHierarchyTestsView.swift */; };
@@ -135,12 +145,22 @@
 			remoteGlobalIDString = F813CAE5209CC5D400E6A27C;
 			remoteInfo = Tests;
 		};
+		F8891AD5216F9B97009F5670 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F813CADE209CC5D400E6A27C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F813CAE5209CC5D400E6A27C;
+			remoteInfo = Tests;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		12DC50A0DEF335622766EE3F /* Pods-HostedAppLogicTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HostedAppLogicTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HostedAppLogicTests/Pods-HostedAppLogicTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2D7115CE9D54A9A196320A8F /* Pods-XcuiTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XcuiTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-XcuiTests/Pods-XcuiTests.release.xcconfig"; sourceTree = "<group>"; };
 		488B597F7059FBA32A47F255 /* Pods-Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Tests/Pods-Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		7E2879FCA0A8A03D904984B6 /* Pods-HostedAppLogicTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HostedAppLogicTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HostedAppLogicTests/Pods-HostedAppLogicTests.release.xcconfig"; sourceTree = "<group>"; };
 		881D22752085DF168038BBBB /* Pods-XcuiTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XcuiTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-XcuiTests/Pods-XcuiTests.debug.xcconfig"; sourceTree = "<group>"; };
+		C496883D2B63192122269E5E /* Pods_HostedAppLogicTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HostedAppLogicTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC78DE2E21395BFE00599258 /* HierarchyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HierarchyTests.swift; sourceTree = "<group>"; };
 		CC78DE3121395C6000599258 /* HierarchyTestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HierarchyTestsView.swift; sourceTree = "<group>"; };
 		CD742749E45876FAE6B40E87 /* Pods_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -223,6 +243,16 @@
 		F8676EDB21552D74007DDB7C /* CallbackToAppIpcMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallbackToAppIpcMethod.swift; sourceTree = "<group>"; };
 		F8676EE1215533D2007DDB7C /* NestedCallbacksToAppIpcMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NestedCallbacksToAppIpcMethod.swift; sourceTree = "<group>"; };
 		F8676EE3215533D9007DDB7C /* NestedCallbacksToAppIpcMethodHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NestedCallbacksToAppIpcMethodHandler.swift; sourceTree = "<group>"; };
+		F8891AB4216F7252009F5670 /* VisibilityCheckTestDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisibilityCheckTestDataProvider.swift; sourceTree = "<group>"; };
+		F8891AB6216F7258009F5670 /* VisibilityCheckTestsViewSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisibilityCheckTestsViewSettings.swift; sourceTree = "<group>"; };
+		F8891AB8216F725E009F5670 /* OverlappedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlappedView.swift; sourceTree = "<group>"; };
+		F8891ABA216F7264009F5670 /* VisibilityCheckTestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisibilityCheckTestsView.swift; sourceTree = "<group>"; };
+		F8891ABC216F7690009F5670 /* VisibilityCheckTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisibilityCheckTests.swift; sourceTree = "<group>"; };
+		F8891ABE216F76D6009F5670 /* VisibilityCheckTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisibilityCheckTests.swift; sourceTree = "<group>"; };
+		F8891AD0216F9B97009F5670 /* HostedAppLogicTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HostedAppLogicTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F8891AD4216F9B97009F5670 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F8891AE0216FA84B009F5670 /* HostedAppLogicTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HostedAppLogicTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		F8891AE2216FA8BD009F5670 /* EntryPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryPoint.swift; sourceTree = "<group>"; };
 		F8A395B62146CE40000E9E44 /* MovingElementTestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovingElementTestsView.swift; sourceTree = "<group>"; };
 		F8A395B8214701FE000E9E44 /* ChangingHierarchyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangingHierarchyTests.swift; sourceTree = "<group>"; };
 		F8A395BA2147C243000E9E44 /* ChangingHierarchyTestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangingHierarchyTestsView.swift; sourceTree = "<group>"; };
@@ -282,6 +312,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F8891ACD216F9B97009F5670 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				178B9DFA8776E2FCAF9E2DED /* Pods_HostedAppLogicTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -294,6 +332,8 @@
 				2D7115CE9D54A9A196320A8F /* Pods-XcuiTests.release.xcconfig */,
 				DE77609B4A7ACC4597ED18A4 /* Pods-UnitTests.debug.xcconfig */,
 				FCAE82DF924A1C5A4F000C9C /* Pods-UnitTests.release.xcconfig */,
+				12DC50A0DEF335622766EE3F /* Pods-HostedAppLogicTests.debug.xcconfig */,
+				7E2879FCA0A8A03D904984B6 /* Pods-HostedAppLogicTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -305,6 +345,7 @@
 				CD742749E45876FAE6B40E87 /* Pods_Tests.framework */,
 				D43FC00E93EFB0AB44044DF3 /* Pods_XcuiTests.framework */,
 				DC1A41202764BEE7683D42DC /* Pods_UnitTests.framework */,
+				C496883D2B63192122269E5E /* Pods_HostedAppLogicTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -323,6 +364,7 @@
 				F813CAE8209CC5D400E6A27C /* Tests */,
 				F813CAFD209CC5D700E6A27C /* XcuiTests */,
 				F866756E2121E81E00396F02 /* UnitTests */,
+				F8891AD1216F9B97009F5670 /* HostedAppLogicTests */,
 				F813CAE7209CC5D400E6A27C /* Products */,
 				A268F9836F7E7471FEDB9954 /* Pods */,
 				AB15AD35FB63246BDD8CE9FB /* Frameworks */,
@@ -335,6 +377,7 @@
 				F813CAE6209CC5D400E6A27C /* Tests.app */,
 				F813CAFA209CC5D700E6A27C /* XcuiTests.xctest */,
 				F866756D2121E81E00396F02 /* UnitTests.xctest */,
+				F8891AD0216F9B97009F5670 /* HostedAppLogicTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -392,6 +435,7 @@
 		F813CB11209CD82A00E6A27C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				F8891AB2216F7233009F5670 /* VisibilityCheckTestsView */,
 				F84D12702166AC3400A178B4 /* FakeCellsDoNotCrashAppTests */,
 				F8C7090D2153E3650015A10B /* NetworkStubbingTests */,
 				F839A808215124B3009F77AB /* CrashTests */,
@@ -654,6 +698,36 @@
 			path = NestedCallbacks;
 			sourceTree = "<group>";
 		};
+		F8891AB2216F7233009F5670 /* VisibilityCheckTestsView */ = {
+			isa = PBXGroup;
+			children = (
+				F8891AB3216F7248009F5670 /* Ipc */,
+				F8891AB8216F725E009F5670 /* OverlappedView.swift */,
+				F8891ABA216F7264009F5670 /* VisibilityCheckTestsView.swift */,
+			);
+			path = VisibilityCheckTestsView;
+			sourceTree = "<group>";
+		};
+		F8891AB3216F7248009F5670 /* Ipc */ = {
+			isa = PBXGroup;
+			children = (
+				F8891AB4216F7252009F5670 /* VisibilityCheckTestDataProvider.swift */,
+				F8891AB6216F7258009F5670 /* VisibilityCheckTestsViewSettings.swift */,
+			);
+			path = Ipc;
+			sourceTree = "<group>";
+		};
+		F8891AD1216F9B97009F5670 /* HostedAppLogicTests */ = {
+			isa = PBXGroup;
+			children = (
+				F8891ABE216F76D6009F5670 /* VisibilityCheckTests.swift */,
+				F8891AD4216F9B97009F5670 /* Info.plist */,
+				F8891AE0216FA84B009F5670 /* HostedAppLogicTests-Bridging-Header.h */,
+				F8891AE2216FA8BD009F5670 /* EntryPoint.swift */,
+			);
+			path = HostedAppLogicTests;
+			sourceTree = "<group>";
+		};
 		F8A395BC2147C549000E9E44 /* ViewsWithClosures */ = {
 			isa = PBXGroup;
 			children = (
@@ -764,6 +838,7 @@
 				F853D023214BF68F00EAFBCE /* FailureHighlightingTests.swift */,
 				F839A8042151020A009F77AB /* FailuresTests.swift */,
 				F839A806215124A9009F77AB /* CrashTests.swift */,
+				F8891ABC216F7690009F5670 /* VisibilityCheckTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -871,6 +946,26 @@
 			productReference = F866756D2121E81E00396F02 /* UnitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		F8891ACF216F9B97009F5670 /* HostedAppLogicTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F8891AD7216F9B97009F5670 /* Build configuration list for PBXNativeTarget "HostedAppLogicTests" */;
+			buildPhases = (
+				C6AB20A54EE9B3C021D0EF34 /* [CP] Check Pods Manifest.lock */,
+				F8891ACC216F9B97009F5670 /* Sources */,
+				F8891ACD216F9B97009F5670 /* Frameworks */,
+				F8891ACE216F9B97009F5670 /* Resources */,
+				4BCA745278152882A6F159AF /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F8891AD6216F9B97009F5670 /* PBXTargetDependency */,
+			);
+			name = HostedAppLogicTests;
+			productName = HostedLogicTests;
+			productReference = F8891AD0216F9B97009F5670 /* HostedAppLogicTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -896,6 +991,12 @@
 						CreatedOnToolsVersion = 9.4;
 						ProvisioningStyle = Automatic;
 					};
+					F8891ACF216F9B97009F5670 = {
+						CreatedOnToolsVersion = 9.4;
+						LastSwiftMigration = 0940;
+						ProvisioningStyle = Automatic;
+						TestTargetID = F813CAE5209CC5D400E6A27C;
+					};
 				};
 			};
 			buildConfigurationList = F813CAE1209CC5D400E6A27C /* Build configuration list for PBXProject "Tests" */;
@@ -914,6 +1015,7 @@
 				F813CAE5209CC5D400E6A27C /* Tests */,
 				F813CAF9209CC5D700E6A27C /* XcuiTests */,
 				F866756C2121E81E00396F02 /* UnitTests */,
+				F8891ACF216F9B97009F5670 /* HostedAppLogicTests */,
 			);
 		};
 /* End PBXProject section */
@@ -942,6 +1044,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				F8A9D32E2168057300EC5D24 /* Media.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F8891ACE216F9B97009F5670 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1088,6 +1197,56 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-XcuiTests/Pods-XcuiTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		4BCA745278152882A6F159AF /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-HostedAppLogicTests/Pods-HostedAppLogicTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GCDWebServer/GCDWebServer.framework",
+				"${BUILT_PRODUCTS_DIR}/MixboxBuiltinIpc/MixboxBuiltinIpc.framework",
+				"${BUILT_PRODUCTS_DIR}/MixboxFoundation/MixboxFoundation.framework",
+				"${BUILT_PRODUCTS_DIR}/MixboxInAppServices/MixboxInAppServices.framework",
+				"${BUILT_PRODUCTS_DIR}/MixboxIpc/MixboxIpc.framework",
+				"${BUILT_PRODUCTS_DIR}/MixboxIpcCommon/MixboxIpcCommon.framework",
+				"${BUILT_PRODUCTS_DIR}/MixboxIpcSbtuiHost/MixboxIpcSbtuiHost.framework",
+				"${BUILT_PRODUCTS_DIR}/MixboxTestability/MixboxTestability.framework",
+				"${BUILT_PRODUCTS_DIR}/MixboxUiKit/MixboxUiKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SBTUITestTunnel-Server/SBTUITestTunnel.framework",
+				"${BUILT_PRODUCTS_DIR}/CocoaImageHashing/CocoaImageHashing.framework",
+				"${BUILT_PRODUCTS_DIR}/MixboxArtifacts/MixboxArtifacts.framework",
+				"${BUILT_PRODUCTS_DIR}/MixboxReporting/MixboxReporting.framework",
+				"${BUILT_PRODUCTS_DIR}/MixboxTestsFoundation/MixboxTestsFoundation.framework",
+				"${BUILT_PRODUCTS_DIR}/MixboxUiTestsFoundation/MixboxUiTestsFoundation.framework",
+				"${BUILT_PRODUCTS_DIR}/SQLite.swift/SQLite.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GCDWebServer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MixboxBuiltinIpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MixboxFoundation.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MixboxInAppServices.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MixboxIpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MixboxIpcCommon.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MixboxIpcSbtuiHost.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MixboxTestability.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MixboxUiKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SBTUITestTunnel.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaImageHashing.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MixboxArtifacts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MixboxReporting.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MixboxTestsFoundation.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MixboxUiTestsFoundation.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SQLite.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HostedAppLogicTests/Pods-HostedAppLogicTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		80779169BDB545213964C14A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1100,6 +1259,24 @@
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-UnitTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C6AB20A54EE9B3C021D0EF34 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-HostedAppLogicTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1145,6 +1322,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8891AB7216F7258009F5670 /* VisibilityCheckTestsViewSettings.swift in Sources */,
 				F813CB24209CD82A00E6A27C /* TextTestsView.swift in Sources */,
 				F8E8BAFA20E13D3900524185 /* FakeCellsTestsConstants.swift in Sources */,
 				F813CB1F209CD82A00E6A27C /* TextFieldWithClosures.swift in Sources */,
@@ -1153,6 +1331,7 @@
 				F813CB1C209CD82A00E6A27C /* TestingViewController.swift in Sources */,
 				F82086A8213D9CBF00DCBA2D /* FadeOutView.swift in Sources */,
 				F813CB20209CD82A00E6A27C /* LabelWithClosures.swift in Sources */,
+				F8891ABB216F7264009F5670 /* VisibilityCheckTestsView.swift in Sources */,
 				F820873221418D6800DCBA2D /* LocatorsTestsView.swift in Sources */,
 				F84D12792166B37400A178B4 /* CellThatCrashesAtInit.swift in Sources */,
 				F8676EDC21552D74007DDB7C /* CallbackToAppIpcMethod.swift in Sources */,
@@ -1160,6 +1339,7 @@
 				F8C7090C2153E3620015A10B /* NetworkStubbingTestsView.swift in Sources */,
 				F857C9D620CD8BC400E8BFF5 /* EchoIpcMethodHandler.swift in Sources */,
 				F857C9DA20CD8D8700E8BFF5 /* CustomIpcMethods.swift in Sources */,
+				F8891AB5216F7252009F5670 /* VisibilityCheckTestDataProvider.swift in Sources */,
 				F8A395BB2147C243000E9E44 /* ChangingHierarchyTestsView.swift in Sources */,
 				F813CB21209CD82A00E6A27C /* TextViewWithClosures.swift in Sources */,
 				F813CB26209CD82A00E6A27C /* ScrollTests.swift in Sources */,
@@ -1172,6 +1352,7 @@
 				F813CB22209CD82A00E6A27C /* ChecksTestsView.swift in Sources */,
 				F8BCA9E2213D566400592068 /* ScreenshotTestsConstants.swift in Sources */,
 				F8274A462142DBE000A72C41 /* AssertingCustomValuesTestsView.swift in Sources */,
+				F8891AB9216F725E009F5670 /* OverlappedView.swift in Sources */,
 				F84C4F3320E68FCA00DB35F2 /* FakeCellsReloadType.swift in Sources */,
 				F8EBBCBB213AB83F00D320A4 /* HierarchySourcesTestsView.swift in Sources */,
 				F8676EDA21552D68007DDB7C /* CallbackToAppIpcMethodHandler.swift in Sources */,
@@ -1211,12 +1392,14 @@
 				F853D024214BF68F00EAFBCE /* FailureHighlightingTests.swift in Sources */,
 				F84C4F3420E68FCA00DB35F2 /* FakeCellsReloadType.swift in Sources */,
 				F8222D8B20D2B4A9009FB7B6 /* LazilyInitializedIpcClient.swift in Sources */,
+				F8891ABD216F7690009F5670 /* VisibilityCheckTests.swift in Sources */,
 				F8EBBCE7213D541300D320A4 /* ScreenshotTests.swift in Sources */,
 				F839A807215124A9009F77AB /* CrashTests.swift in Sources */,
 				F8E8BAE320DD752200524185 /* FakeCellsTests.swift in Sources */,
 				F8676EDF21553203007DDB7C /* CallbackToAppIpcMethod.swift in Sources */,
 				F8274A4B2143112000A72C41 /* XcTestFailure.swift in Sources */,
 				F8AC35C920E2B1310094204C /* FakeCellsIpcMethod.swift in Sources */,
+				F8891AC8216F9108009F5670 /* VisibilityCheckTestsViewSettings.swift in Sources */,
 				F8E8BAFB20E13D4400524185 /* FakeCellsTestsConstants.swift in Sources */,
 				F8EBBCA6213AA8FF00D320A4 /* HierarchySourcesTests.swift in Sources */,
 				CC78DE2F21395BFE00599258 /* HierarchyTests.swift in Sources */,
@@ -1235,6 +1418,7 @@
 				F813CB2F209CDF3400E6A27C /* TestabilityTextTests.swift in Sources */,
 				F8676EDE21553203007DDB7C /* CallbackFromAppIpcMethod.swift in Sources */,
 				F82087402141B49700DCBA2D /* LocatorsTests.swift in Sources */,
+				F8891AC7216F9108009F5670 /* VisibilityCheckTestDataProvider.swift in Sources */,
 				F839A8052151020A009F77AB /* FailuresTests.swift in Sources */,
 				F857C9DD20CF8F9900E8BFF5 /* EchoIpcMethod.swift in Sources */,
 				F8BCA9DF213D55E400592068 /* UIImage+WithColorAndSize.swift in Sources */,
@@ -1265,6 +1449,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F8891ACC216F9B97009F5670 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F8891AE3216FA8BD009F5670 /* EntryPoint.swift in Sources */,
+				F8891ADA216F9C18009F5670 /* VisibilityCheckTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1277,6 +1470,11 @@
 			isa = PBXTargetDependency;
 			target = F813CAE5209CC5D400E6A27C /* Tests */;
 			targetProxy = F86675722121E81E00396F02 /* PBXContainerItemProxy */;
+		};
+		F8891AD6216F9B97009F5670 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F813CAE5209CC5D400E6A27C /* Tests */;
+			targetProxy = F8891AD5216F9B97009F5670 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1516,6 +1714,47 @@
 			};
 			name = Release;
 		};
+		F8891AD8216F9B97009F5670 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 12DC50A0DEF335622766EE3F /* Pods-HostedAppLogicTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = P85XYZ9GHJ;
+				INFOPLIST_FILE = HostedAppLogicTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = ru.avito.HostedAppLogicTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "HostedAppLogicTests/HostedAppLogicTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tests.app/Tests";
+			};
+			name = Debug;
+		};
+		F8891AD9216F9B97009F5670 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7E2879FCA0A8A03D904984B6 /* Pods-HostedAppLogicTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = P85XYZ9GHJ;
+				INFOPLIST_FILE = HostedAppLogicTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = ru.avito.HostedAppLogicTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "HostedAppLogicTests/HostedAppLogicTests-Bridging-Header.h";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tests.app/Tests";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1551,6 +1790,15 @@
 			buildConfigurations = (
 				F86675742121E81E00396F02 /* Debug */,
 				F86675752121E81E00396F02 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F8891AD7216F9B97009F5670 /* Build configuration list for PBXNativeTarget "HostedAppLogicTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F8891AD8216F9B97009F5670 /* Debug */,
+				F8891AD9216F9B97009F5670 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

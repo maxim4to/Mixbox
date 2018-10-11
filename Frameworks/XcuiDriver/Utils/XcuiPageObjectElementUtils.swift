@@ -44,7 +44,7 @@ final class XcuiPageObjectElementUtils: AlmightyElementUtils {
     
     private func perform<Type>(
         utilsSettings: UtilsSettings,
-        minimalPercentageOfVisibleArea: CGFloat = 0.2,
+        defaultVisibilityCheckSettings: VisibilityCheckSettings,
         util: @escaping (_ snapshot: ElementSnapshot) -> PerformResult<Type>)
         -> Type?
     {
@@ -63,9 +63,9 @@ final class XcuiPageObjectElementUtils: AlmightyElementUtils {
             settings: ResolvedInteractionSettings(
                 interactionSettings: utilsSettings,
                 elementSettings: elementSettings,
-                pollingConfiguration: pollingConfiguration
-            ),
-            minimalPercentageOfVisibleArea: minimalPercentageOfVisibleArea
+                pollingConfiguration: pollingConfiguration,
+                defaultVisibilityCheckSettings: defaultVisibilityCheckSettings
+            )
         )
         
         let interactionPerformer = interactionPerformerFactory.performerForInteraction(
@@ -96,7 +96,9 @@ final class XcuiPageObjectElementUtils: AlmightyElementUtils {
     }
     
     func takeSnapshot(utilsSettings: UtilsSettings) -> UIImage? {
-        return perform(utilsSettings: utilsSettings, minimalPercentageOfVisibleArea: 0.0) {
+        // TODO: defaultMinimalPercentageOfVisibleArea => 1.0, high blendingThreshold
+        let defaultVisibilityCheckSettings = VisibilityCheckSettings(minimalPercentageOfVisibleArea: 0.0)
+        return perform(utilsSettings: utilsSettings, defaultVisibilityCheckSettings: defaultVisibilityCheckSettings) {
             (snapshot: ElementSnapshot) -> PerformResult<UIImage> in
             
             PerformResult(

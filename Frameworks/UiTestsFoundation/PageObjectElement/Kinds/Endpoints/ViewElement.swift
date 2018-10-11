@@ -287,7 +287,6 @@ public extension ViewElementChecks where Self: Element {
     
     @discardableResult
     func matches(
-        minimalPercentageOfVisibleArea: CGFloat = 0.2,
         file: StaticString = #file,
         line: UInt = #line,
         description: HumanReadableInteractionDescriptionBuilder? = nil,
@@ -300,7 +299,6 @@ public extension ViewElementChecks where Self: Element {
         
         return implementation.checks.matches(
             checkSettings: checkSettings,
-            minimalPercentageOfVisibleArea: minimalPercentageOfVisibleArea,
             matcher: matcher
         )
     }

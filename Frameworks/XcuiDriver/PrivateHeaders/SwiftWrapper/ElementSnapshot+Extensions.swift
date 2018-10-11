@@ -6,14 +6,17 @@ import MixboxUiTestsFoundation
 import XCTest
 
 extension ElementSnapshot {
-    public func percentageOfVisibleArea(ipcClient: IpcClient) -> CGFloat? {
+    public func percentageOfVisibleArea(ipcClient: IpcClient, blendingThreshold: CGFloat) -> CGFloat? {
         guard let uniqueIdentifier = uniqueIdentifier.value else {
             return nil
         }
         
         let result = ipcClient.call(
             method: PercentageOfVisibleAreaIpcMethod(),
-            arguments: uniqueIdentifier
+            arguments: PercentageOfVisibleAreaIpcMethod.Arguments(
+                viewId: uniqueIdentifier,
+                blendingThreshold: blendingThreshold
+            )
         )
         
         // TODO: Replace nil with 0 in PercentageOfVisibleAreaIpcMethodHandler?

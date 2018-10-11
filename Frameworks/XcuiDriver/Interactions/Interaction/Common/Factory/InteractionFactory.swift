@@ -8,19 +8,16 @@ import MixboxTestsFoundation
 protocol InteractionFactory {
     func actionInteraction(
         specificImplementation: InteractionSpecificImplementation,
-        settings: ResolvedInteractionSettings,
-        minimalPercentageOfVisibleArea: CGFloat)
+        settings: ResolvedInteractionSettings)
         -> Interaction
     
     func checkForNotDisplayedInteraction(
-        settings: ResolvedInteractionSettings,
-        minimalPercentageOfVisibleArea: CGFloat)
+        settings: ResolvedInteractionSettings)
         -> Interaction
     
     func checkInteraction(
         specificImplementation: InteractionSpecificImplementation,
-        settings: ResolvedInteractionSettings,
-        minimalPercentageOfVisibleArea: CGFloat)
+        settings: ResolvedInteractionSettings)
         -> Interaction
 }
 
@@ -44,8 +41,7 @@ final class InteractionFactoryImpl: InteractionFactory {
     
     func actionInteraction(
         specificImplementation: InteractionSpecificImplementation,
-        settings: ResolvedInteractionSettings,
-        minimalPercentageOfVisibleArea: CGFloat)
+        settings: ResolvedInteractionSettings)
         -> Interaction
     {
         return ActionInteraction(
@@ -54,14 +50,12 @@ final class InteractionFactoryImpl: InteractionFactory {
             elementFinder: elementFinder,
             elementVisibilityChecker: elementVisibilityChecker,
             scrollingHintsProvider: scrollingHintsProvider,
-            minimalPercentageOfVisibleArea: minimalPercentageOfVisibleArea,
             snapshotCaches: snapshotCaches
         )
     }
     
     func checkForNotDisplayedInteraction(
-        settings: ResolvedInteractionSettings,
-        minimalPercentageOfVisibleArea: CGFloat)
+        settings: ResolvedInteractionSettings)
         -> Interaction
     {
         return InvisibilityCheckInteraction(
@@ -69,15 +63,13 @@ final class InteractionFactoryImpl: InteractionFactory {
             elementFinder: elementFinder,
             elementVisibilityChecker: elementVisibilityChecker,
             scrollingHintsProvider: scrollingHintsProvider,
-            minimalPercentageOfVisibleArea: minimalPercentageOfVisibleArea,
             snapshotCaches: snapshotCaches
         )
     }
     
     func checkInteraction(
         specificImplementation: InteractionSpecificImplementation,
-        settings: ResolvedInteractionSettings,
-        minimalPercentageOfVisibleArea: CGFloat)
+        settings: ResolvedInteractionSettings)
         -> Interaction
     {
         return VisibleElementCheckInteraction(
@@ -86,7 +78,6 @@ final class InteractionFactoryImpl: InteractionFactory {
             elementFinder: elementFinder,
             elementVisibilityChecker: elementVisibilityChecker,
             scrollingHintsProvider: scrollingHintsProvider,
-            minimalPercentageOfVisibleArea: minimalPercentageOfVisibleArea,
             snapshotCaches: snapshotCaches
         )
     }

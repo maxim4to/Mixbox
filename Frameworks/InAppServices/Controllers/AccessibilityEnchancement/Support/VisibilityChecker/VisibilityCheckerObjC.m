@@ -1,8 +1,9 @@
-#import "VisibilityChecker.h"
+#import "VisibilityCheckerObjC.h"
 #import "CGGeometry+Extensions.h"
 #import "UIView+Extensions.h"
 #import "ScreenshotUtil.h"
 #import "Defines.h"
+#import "VisibilityCheckerImageView.h"
 
 /**
  *  Data structure to hold information about visible pixels.
@@ -114,22 +115,29 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
 unsigned char *grey_createImagePixelDataFromCGImageRef(CGImageRef imageRef,
                                                        CGContextRef *outBmpCtx);
 
-@implementation VisibilityChecker
+@implementation VisibilityCheckerObjC
 
-+ (double)percentElementVisibleOnScreen:(UIView *)view {
-    return [self grey_percentViewVisibleOnScreen:view withinRect:[view accessibilityFrame]];
++ (double)percentageOfVisibleAreaOfView:(UIView *)view
+                  withBlendingThreshold:(CGFloat)blendingThreshold
+{
+    return [self
+            grey_percentViewVisibleOnScreen:view
+            withBlendingThreshold:blendingThreshold
+            withinRect:[view accessibilityFrame]
+            ];
 }
 
 + (double)grey_percentViewVisibleOnScreen:(UIView *)view
-                          withinRect:(CGRect)searchRectInScreenCoordinates
+                    withBlendingThreshold:(CGFloat)blendingThreshold
+                               withinRect:(CGRect)searchRectInScreenCoordinates
 {
     CGImageRef beforeImage = NULL;
     CGImageRef afterImage = NULL;
     BOOL viewIntersectsScreen = [self grey_captureBeforeImage:&beforeImage
-                                           andAfterImage:&afterImage
-                                andGetIntersectionOrigin:NULL
-                                                 forView:view
-                                              withinRect:searchRectInScreenCoordinates];
+                                                andAfterImage:&afterImage
+                                     andGetIntersectionOrigin:NULL
+                                                      forView:view
+                                                   withinRect:searchRectInScreenCoordinates];
     
     double percentVisible = 0;
     if (viewIntersectsScreen) {
@@ -140,6 +148,7 @@ unsigned char *grey_createImagePixelDataFromCGImageRef(CGImageRef imageRef,
         
         GREYVisiblePixelData visiblePixelData = [self grey_countPixelsInImage:afterImage
                                                   thatAreShiftedPixelsOfImage:beforeImage
+                                                        withBlendingThreshold:blendingThreshold
                                                   storeVisiblePixelRectInRect:NULL
                                              andStoreComparisonResultInBuffer:NULL];
         percentVisible = visiblePixelData.visiblePixelCount / countTotalSearchRectPixels;
@@ -356,6 +365,7 @@ unsigned char *grey_createImagePixelDataFromCGImageRef(CGImageRef imageRef,
  */
 + (GREYVisiblePixelData)grey_countPixelsInImage:(CGImageRef)afterImage
                     thatAreShiftedPixelsOfImage:(CGImageRef)beforeImage
+                          withBlendingThreshold:(CGFloat)blendingThreshold
                     storeVisiblePixelRectInRect:(CGRect *)outVisiblePixelRect
                andStoreComparisonResultInBuffer:(GREYVisibilityDiffBuffer *)outDiffBufferOrNULL
 {
@@ -363,9 +373,9 @@ unsigned char *grey_createImagePixelDataFromCGImageRef(CGImageRef imageRef,
     NSAssert(afterImage, @"afterImage should not be nil");
     
     NSAssert(CGImageGetWidth(beforeImage) == CGImageGetWidth(afterImage),
-                               @"width must be the same");
+             @"width must be the same");
     NSAssert(CGImageGetHeight(beforeImage) == CGImageGetHeight(afterImage),
-                               @"height must be the same");
+             @"height must be the same");
     unsigned char *pixelBuffer = grey_createImagePixelDataFromCGImageRef(beforeImage, NULL);
     NSAssert(pixelBuffer, @"pixelBuffer must not be null");
     unsigned char *shiftedPixelBuffer = grey_createImagePixelDataFromCGImageRef(afterImage, NULL);
@@ -380,13 +390,17 @@ unsigned char *grey_createImagePixelDataFromCGImageRef(CGImageRef imageRef,
     }
     GREYVisiblePixelData visiblePixelData = {0, GREYCGPointNull};
     // Make sure we go row-order to take advantage of data locality (cuts runtime in half).
+    
+    char intBlendingThreshold = blendingThreshold * kIsPixelDifferentThresholdMaxValue;
+    
     for (NSUInteger y = 0; y < height; y++) {
         for (NSUInteger x = 0; x < width; x++) {
             NSUInteger currentPixelIndex = (y * width + x) * kColorChannelsPerPixel;
             // We don't care about the first byte because we are dealing with XRGB format.
-            BOOL pixelHasDiff = grey_isPixelDifferent(&pixelBuffer[currentPixelIndex + 1],
-                                                      &shiftedPixelBuffer[currentPixelIndex + 1]);
-            if (pixelHasDiff) {
+            BOOL pixelIsVisible = pixelAfterShiftingEqualsToOtherWithThreshold(&pixelBuffer[currentPixelIndex + 1],
+                                                                               &shiftedPixelBuffer[currentPixelIndex + 1],
+                                                                               intBlendingThreshold);
+            if (pixelIsVisible) {
                 visiblePixelData.visiblePixelCount++;
                 // Always pick the bottom and right-most pixel. We may want to consider using tax-cab
                 // formula to find a pixel that's closest to the center if we encounter problems with this
@@ -396,13 +410,13 @@ unsigned char *grey_createImagePixelDataFromCGImageRef(CGImageRef imageRef,
             }
             if (outVisiblePixelRect) {
                 if (y == 0) {
-                    histograms[x] = pixelHasDiff ? 1 : 0;
+                    histograms[x] = pixelIsVisible ? 1 : 0;
                 } else {
-                    histograms[y * width + x] = pixelHasDiff ? (histograms[(y - 1) * width + x] + 1) : 0;
+                    histograms[y * width + x] = pixelIsVisible ? (histograms[(y - 1) * width + x] + 1) : 0;
                 }
             }
             if (outDiffBufferOrNULL) {
-                GREYVisibilityDiffBufferSetVisibility(*outDiffBufferOrNULL, x, y, pixelHasDiff);
+                GREYVisibilityDiffBufferSetVisibility(*outDiffBufferOrNULL, x, y, pixelIsVisible);
             }
         }
     }
@@ -411,7 +425,7 @@ unsigned char *grey_createImagePixelDataFromCGImageRef(CGImageRef imageRef,
         for (NSUInteger idx = 0; idx < height; idx++) {
             CGRect thisLargest =
             [self grey_largestRectInHistogram:&histograms[idx * width]
-                                                        length:(uint16_t)width];
+                                       length:(uint16_t)width];
             if (CGRectArea(thisLargest) > CGRectArea(largestRect)) {
                 // Because our histograms point up, not down.
                 thisLargest.origin.y = idx - thisLargest.size.height + 1;
@@ -497,9 +511,7 @@ unsigned char *grey_createImagePixelDataFromCGImageRef(CGImageRef imageRef,
 
 /**
  *  Creates a UIImageView and adds a shifted color image of @c imageRef to it, in addition
- *  view.frame is offset by @c offset and image orientation set to @c orientation. There are 256
- *  possible values for a color component, from 0 to 255. Each color component will be shifted by
- *  exactly 128, examples: 0 => 128, 64 => 192, 128 => 0, 255 => 127.
+ *  view.frame is offset by @c offset and image orientation set to @c orientation.
  *
  *  @param imageRef The image whose colors are to be shifted.
  *  @param offset The frame offset to be applied to resulting view.
@@ -510,8 +522,7 @@ unsigned char *grey_createImagePixelDataFromCGImageRef(CGImageRef imageRef,
  */
 + (UIView *)grey_imageViewWithShiftedColorOfImage:(CGImageRef)imageRef
                                       frameOffset:(CGPoint)offset
-                                      orientation:(UIImageOrientation)orientation
-{
+                                      orientation:(UIImageOrientation)orientation {
     NSAssert(imageRef, @"imageRef should not be nil");
     
     size_t width = CGImageGetWidth(imageRef);
@@ -520,18 +531,14 @@ unsigned char *grey_createImagePixelDataFromCGImageRef(CGImageRef imageRef,
     // negatively impacting the readability of code in visibility checker.
     unsigned char *shiftedImagePixels = grey_createImagePixelDataFromCGImageRef(imageRef, NULL);
     
-    for (NSUInteger i = 0; i < height * width; i++) {
-        NSUInteger currentPixelIndex = kColorChannelsPerPixel * i;
+    for (NSUInteger pixelIndex = 0; pixelIndex < height * width; pixelIndex++) {
+        NSUInteger firstChannelIndex = kColorChannelsPerPixel * pixelIndex;
         // We don't care about the [first] byte of the [X]RGB format.
-        for (unsigned char j = 1; j <= 2; j++) {
-            static const unsigned char kShiftIntensityAmount[] = {0, 10, 10, 10}; // Shift for X, R, G, B
-            unsigned char pixelIntensity = shiftedImagePixels[currentPixelIndex + j];
-            if (pixelIntensity >= kShiftIntensityAmount[j]) {
-                pixelIntensity = pixelIntensity - kShiftIntensityAmount[j];
-            } else {
-                pixelIntensity = pixelIntensity + kShiftIntensityAmount[j];
-            }
-            shiftedImagePixels[currentPixelIndex + j] = pixelIntensity;
+        for (unsigned char channelIndexInXrgb = 1; channelIndexInXrgb <= 3; channelIndexInXrgb++) {
+            NSUInteger channelIndexInImage = firstChannelIndex + channelIndexInXrgb;
+            
+            unsigned char originalIntensity = shiftedImagePixels[channelIndexInImage];
+            shiftedImagePixels[channelIndexInImage] = shiftedChannelIntensity(originalIntensity);
         }
     }
     
@@ -556,10 +563,39 @@ unsigned char *grey_createImagePixelDataFromCGImageRef(CGImageRef imageRef,
     CGContextRelease(bitmapContext);
     free(shiftedImagePixels);
     
-    UIImageView *shiftedImageView = [[UIImageView alloc] initWithImage:shiftedImage];
+    VisibilityCheckerImageView *shiftedImageView = [[VisibilityCheckerImageView alloc] initWithImage:shiftedImage];
     shiftedImageView.frame = CGRectOffset(shiftedImageView.frame, offset.x, offset.y);
     shiftedImageView.opaque = YES;
     return shiftedImageView;
+}
+
+static const unsigned char kShiftIntensityAmount = 128;
+static const unsigned char kIsPixelDifferentThresholdMaxValue = kShiftIntensityAmount;
+static const unsigned char kIsPixelDifferentThresholdHalfValue = kShiftIntensityAmount / 2;
+
+/**
+ *  Shifts RGB channel intensity. Used to check visibility of element by altering
+ *  pixels inside element and check if alteration was actually visible on screen.
+ *
+ *  There are 256 possible values for a color component, from 0 to 255.
+ *  Each color component will be shifted by exactly 128
+ *  Examples: 0 => 128, 64 => 192, 128 => 0, 255 => 127.
+ *
+ *  Reason of this exact algorithm: it can be used to check difference that is caused by
+ *  altering image with maximum precision of 1/128 and it is constant for any value of
+ *  intensity (assume we have some kind of blending or blurring in our app and view is only 1% visible,
+ *  so we want to treat the view as invisible in our tests; it is a real case when view is behind a translucent navbar).
+ *
+ *  E.g.: if we instead invert the value like this 0 (00) => 255 (FF), there will be a situation
+ *  where 127 will be 128 and the precision of calculating difference will be low:
+ *  only 2 cases (0% and 100%) instead of 128 cases with the current algorithm.
+ *
+ *  @param originalIntensity Intensity of XRGB channel of pixel to be shifted (0..255).
+ *
+ *  @return Shifted intensity
+ */
+static inline unsigned char shiftedChannelIntensity(unsigned char originalIntensity) {
+    return (originalIntensity + kShiftIntensityAmount) % 256;
 }
 
 /**
@@ -572,12 +608,27 @@ unsigned char *grey_createImagePixelDataFromCGImageRef(CGImageRef imageRef,
  *        would cause the test to fail, we resort to a naive check that rbg1 and rgb2 are not the
  *        same without specifying the exact delta between them.
  */
-static inline bool grey_isPixelDifferent(unsigned char rgb1[], unsigned char rgb2[]) {
-    return (rgb1[0] != rgb2[0]) || (rgb1[1] != rgb2[1]) || (rgb1[2] != rgb2[2]);
+static inline bool pixelAfterShiftingEqualsToOtherWithThreshold(unsigned char beforeShifting[],
+                                                                unsigned char afterShifting[],
+                                                                unsigned char threshold)
+{
+    unsigned char rDifference = abs(shiftedChannelIntensity(beforeShifting[0]) - afterShifting[0]);
+    unsigned char gDifference = abs(shiftedChannelIntensity(beforeShifting[1]) - afterShifting[1]);
+    unsigned char bDifference = abs(shiftedChannelIntensity(beforeShifting[2]) - afterShifting[2]);
+    
+    // Note that this algorithm is something that user may want to configure.
+    
+    return (rDifference + gDifference + bDifference) <= threshold * 3;
+    
+//    if (threshold > kIsPixelDifferentThresholdHalfValue) {
+//        return rDifference <= threshold || gDifference <= threshold || bDifference <= threshold;
+//    } else {
+//        return rDifference <= threshold && gDifference <= threshold && bDifference <= threshold;
+//    }
 }
 
 unsigned char *grey_createImagePixelDataFromCGImageRef(CGImageRef imageRef,
-                                                              CGContextRef *outBmpCtx) {
+                                                       CGContextRef *outBmpCtx) {
     size_t width = CGImageGetWidth(imageRef);
     size_t height = CGImageGetHeight(imageRef);
     unsigned char *imagePixelBuffer = malloc(height * width * kBytesPerPixel);
@@ -612,6 +663,5 @@ unsigned char *grey_createImagePixelDataFromCGImageRef(CGImageRef imageRef,
     // Must be freed by the caller.
     return imagePixelBuffer;
 }
-
 
 @end

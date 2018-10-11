@@ -10,7 +10,6 @@ final class VisibleElementCheckInteraction: Interaction {
     private let scrollingHintsProvider: ScrollingHintsProvider
     private let elementFinder: ElementFinder
     private let specificImplementation: InteractionSpecificImplementation
-    private let minimalPercentageOfVisibleArea: CGFloat
     private let snapshotCaches: SnapshotCaches
     
     init(
@@ -19,7 +18,6 @@ final class VisibleElementCheckInteraction: Interaction {
         elementFinder: ElementFinder,
         elementVisibilityChecker: ElementVisibilityChecker,
         scrollingHintsProvider: ScrollingHintsProvider,
-        minimalPercentageOfVisibleArea: CGFloat,
         snapshotCaches: SnapshotCaches)
     {
         self.settings = settings
@@ -32,7 +30,6 @@ final class VisibleElementCheckInteraction: Interaction {
         self.specificImplementation = specificImplementation
         self.elementVisibilityChecker = elementVisibilityChecker
         self.scrollingHintsProvider = scrollingHintsProvider
-        self.minimalPercentageOfVisibleArea = minimalPercentageOfVisibleArea
         self.snapshotCaches = snapshotCaches
     }
     
@@ -43,7 +40,6 @@ final class VisibleElementCheckInteraction: Interaction {
             scrollingHintsProvider: scrollingHintsProvider,
             elementFinder: elementFinder,
             interactionSettings: description.settings,
-            minimalPercentageOfVisibleArea: minimalPercentageOfVisibleArea,
             snapshotCaches: snapshotCaches
         )
         

@@ -13,6 +13,7 @@ public final class PageObjectElementRegistrarImpl: PageObjectElementRegistrar {
         self.pageObjectElementFactory = pageObjectElementDependenciesFactory.pageObjectElementFactory()
         self.searchMode = searchMode
         self.interactionMode = interactionMode
+        
     }
     
     // MARK: - PageObjectElementRegistrar
@@ -58,7 +59,8 @@ public final class PageObjectElementRegistrarImpl: PageObjectElementRegistrar {
                 matcher: ElementMatcherBuilder.build(matcherBuilder),
                 searchMode: searchMode ?? .default,
                 searchTimeout: nil,
-                interactionMode: interactionMode ?? .default
+                interactionMode: interactionMode ?? .default,
+                visibilityCheckSettingsCustomization: .default
             )
         )
     }

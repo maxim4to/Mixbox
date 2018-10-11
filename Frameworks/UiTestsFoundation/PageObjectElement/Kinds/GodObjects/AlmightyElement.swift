@@ -106,7 +106,6 @@ public protocol AlmightyElementChecks {
     
     func matches(
         checkSettings: CheckSettings,
-        minimalPercentageOfVisibleArea: CGFloat,
         matcher: @escaping (ElementMatcherBuilder) -> ElementMatcher)
         -> Bool
     

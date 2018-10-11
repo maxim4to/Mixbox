@@ -308,12 +308,14 @@ final class XcuiPageObjectElementActions: AlmightyElementActions {
             settings: ResolvedInteractionSettings(
                 interactionSettings: actionSettings,
                 elementSettings: elementSettings,
-                pollingConfiguration: pollingConfiguration
-            ),
-            // TODO: Configurable percentage of visible area + meaningful default value.
-            // 0.53 is more than half, so we can tap center safely. Also one of our buttons in visible only by 53%
-            // and it was ok, so we made a value according to some button in some app (seems legit).
-            minimalPercentageOfVisibleArea: 0.53
+                pollingConfiguration: pollingConfiguration,
+                // TODO: meaningful default value.
+                // 0.53 is more than half, so we can tap center safely. Also one of our buttons in visible only by 53%
+                // and it was ok, so we made a value according to some button in some app (seems legit).
+                defaultVisibilityCheckSettings: VisibilityCheckSettings(
+                    minimalPercentageOfVisibleArea: 0.53
+                )
+            )
         )
         
         let interactionPerformer = interactionPerformerFactory.performerForInteraction(

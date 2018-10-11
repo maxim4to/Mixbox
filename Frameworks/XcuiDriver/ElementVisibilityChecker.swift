@@ -4,8 +4,8 @@ import MixboxIpc
 import MixboxUiTestsFoundation
 
 protocol ElementVisibilityChecker {
-    func percentageOfVisibleArea(snapshot: ElementSnapshot) -> CGFloat
-    func percentageOfVisibleArea(elementUniqueIdentifier: String) -> CGFloat
+    func percentageOfVisibleArea(snapshot: ElementSnapshot, blendingThreshold: CGFloat) -> CGFloat
+    func percentageOfVisibleArea(elementUniqueIdentifier: String, blendingThreshold: CGFloat) -> CGFloat
 }
 
 final class ElementVisibilityCheckerImpl: ElementVisibilityChecker {
@@ -23,7 +23,7 @@ final class ElementVisibilityCheckerImpl: ElementVisibilityChecker {
         static let definitelyHidden: CGFloat = 0.0
     }
     
-    func percentageOfVisibleArea(snapshot: ElementSnapshot) -> CGFloat {
+    func percentageOfVisibleArea(snapshot: ElementSnapshot, blendingThreshold: CGFloat) -> CGFloat {
         if let isDefinitelyHidden = snapshot.isDefinitelyHidden.value, isDefinitelyHidden {
             return VisibilityPercentage.definitelyHidden
         }
@@ -38,17 +38,20 @@ final class ElementVisibilityCheckerImpl: ElementVisibilityChecker {
             }
         }
         
-        if let percentageOfVisibleArea = snapshot.percentageOfVisibleArea(ipcClient: ipcClient) {
+        if let percentageOfVisibleArea = snapshot.percentageOfVisibleArea(ipcClient: ipcClient, blendingThreshold: blendingThreshold) {
             return percentageOfVisibleArea
         }
         
         return VisibilityPercentage.probablyVisible
     }
     
-    func percentageOfVisibleArea(elementUniqueIdentifier: String) -> CGFloat {
+    func percentageOfVisibleArea(elementUniqueIdentifier: String, blendingThreshold: CGFloat) -> CGFloat {
         let result = ipcClient.call(
             method: PercentageOfVisibleAreaIpcMethod(),
-            arguments: elementUniqueIdentifier
+            arguments: PercentageOfVisibleAreaIpcMethod.Arguments(
+                viewId: elementUniqueIdentifier,
+                blendingThreshold: blendingThreshold
+            )
         )
         
         // TODO: Replace nil with 0 in PercentageOfVisibleAreaIpcMethodHandler?

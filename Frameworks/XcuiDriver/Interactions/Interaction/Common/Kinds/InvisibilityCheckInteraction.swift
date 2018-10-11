@@ -11,7 +11,6 @@ final class InvisibilityCheckInteraction: Interaction {
     private let elementVisibilityChecker: ElementVisibilityChecker
     private let scrollingHintsProvider: ScrollingHintsProvider
     private let elementFinder: ElementFinder
-    private let minimalPercentageOfVisibleArea: CGFloat
     private let interactionHelper: InteractionHelper
     
     init(
@@ -19,7 +18,6 @@ final class InvisibilityCheckInteraction: Interaction {
         elementFinder: ElementFinder,
         elementVisibilityChecker: ElementVisibilityChecker,
         scrollingHintsProvider: ScrollingHintsProvider,
-        minimalPercentageOfVisibleArea: CGFloat,
         snapshotCaches: SnapshotCaches)
     {
         self.settings = settings
@@ -31,14 +29,12 @@ final class InvisibilityCheckInteraction: Interaction {
         self.elementFinder = elementFinder
         self.elementVisibilityChecker = elementVisibilityChecker
         self.scrollingHintsProvider = scrollingHintsProvider
-        self.minimalPercentageOfVisibleArea = minimalPercentageOfVisibleArea
         self.interactionHelper = InteractionHelper(
             messagePrefix: "Проверка не прошла",
             elementVisibilityChecker: elementVisibilityChecker,
             scrollingHintsProvider: scrollingHintsProvider,
             elementFinder: elementFinder,
             interactionSettings: description.settings,
-            minimalPercentageOfVisibleArea: minimalPercentageOfVisibleArea,
             snapshotCaches: snapshotCaches
         )
     }
@@ -47,14 +43,14 @@ final class InvisibilityCheckInteraction: Interaction {
         return interactionHelper.retryInteractionUntilTimeout {
             var resolvedElementQuery = interactionHelper.resolveElementWithRetries()
             
-            let failedElementsCountResult = checkForFailedElementsAndReturnCount(
+            let failedElementsResult = checkForFailedElements(
                 resolvedElementQuery: &resolvedElementQuery
             )
             
-            switch failedElementsCountResult {
-            case .failedElementsCount(let failedElementsCount):
+            switch failedElementsResult {
+            case .failedElementsVisibleAreas(let failedElementsVisibleAreas):
                 return makeInteractionResult(
-                    failedElementsCount: failedElementsCount,
+                    failedElementsVisibleAreas: failedElementsVisibleAreas,
                     resolvedElementQuery: resolvedElementQuery
                 )
             case .error(let message):
@@ -65,16 +61,16 @@ final class InvisibilityCheckInteraction: Interaction {
         }
     }
     
-    private enum CheckForFailedElementsAndReturnCountResult {
-        case failedElementsCount(Int)
+    private enum CheckForFailedElementsResult {
+        case failedElementsVisibleAreas([CGFloat])
         case error(String)
     }
     
-    private func checkForFailedElementsAndReturnCount(
+    private func checkForFailedElements(
         resolvedElementQuery: inout ResolvedElementQuery)
-        -> CheckForFailedElementsAndReturnCountResult
+        -> CheckForFailedElementsResult
     {
-        var failedElementsCount = 0
+        var failedElementsVisibleAreas = [CGFloat]()
         
         forEach: for var (index, snapshot) in resolvedElementQuery.matchingSnapshots.enumerated() {
             if snapshot.isDefinitelyHidden.value == true {
@@ -121,30 +117,35 @@ final class InvisibilityCheckInteraction: Interaction {
                 }
                 
                 let percentageOfVisibleArea = alreadyCalculatedPercentageOfVisibleArea
-                    ?? elementVisibilityChecker.percentageOfVisibleArea(snapshot: snapshot)
+                    ?? elementVisibilityChecker.percentageOfVisibleArea(
+                        snapshot: snapshot,
+                        blendingThreshold: settings.visibilityCheckSettings.blendingThreshold
+                )
                 
-                if percentageOfVisibleArea >= minimalPercentageOfVisibleArea {
-                    failedElementsCount += 1
+                if percentageOfVisibleArea >= settings.visibilityCheckSettings.minimalPercentageOfVisibleArea {
+                    failedElementsVisibleAreas.append(percentageOfVisibleArea)
                 }
             }
         }
         
-        return .failedElementsCount(failedElementsCount)
+        return .failedElementsVisibleAreas(failedElementsVisibleAreas)
     }
     
     func makeInteractionResult(
-        failedElementsCount: Int,
+        failedElementsVisibleAreas: [CGFloat],
         resolvedElementQuery: ResolvedElementQuery)
         -> InteractionResult
     {
-        if failedElementsCount > 0 {
+        if !failedElementsVisibleAreas.isEmpty {
             let message: String
+            let visibleAreaThreshold = settings.visibilityCheckSettings.minimalPercentageOfVisibleArea
             
-            if failedElementsCount == 1 && resolvedElementQuery.matchingSnapshots.count == 1 {
-                message = "элемент является видимым"
+            if failedElementsVisibleAreas.count == 1 && resolvedElementQuery.matchingSnapshots.count == 1, let visibleArea = failedElementsVisibleAreas.first {
+                message = "элемент является видимым (видимая площадь \(visibleArea) > \(visibleAreaThreshold))"
             } else {
                 let totalCount = resolvedElementQuery.matchingSnapshots.count
-                message = "\(failedElementsCount) из \(totalCount) подходящих элементов являются видимыми"
+                let areas = failedElementsVisibleAreas.map { "\($0)" }.joined(separator: ", ")
+                message = "\(failedElementsVisibleAreas.count) из \(totalCount) подходящих элементов являются видимыми, пороговое значение видимой площади == \(visibleAreaThreshold), видимые площади элементов: \(areas)"
             }
             
             return interactionHelper.failureResult(

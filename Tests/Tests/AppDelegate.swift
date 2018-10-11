@@ -16,7 +16,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         )
         window?.makeKeyAndVisible()
         
-        if let mixboxInAppServices = mixboxInAppServices {
+        let startServices = ProcessInfo.processInfo.environment["MB_TESTS_startMixboxInAppServices"] == "true"
+        
+        if startServices, let mixboxInAppServices = mixboxInAppServices {
             mixboxInAppServices.start()
             mixboxInAppServices.handleUiBecomeVisible()
             

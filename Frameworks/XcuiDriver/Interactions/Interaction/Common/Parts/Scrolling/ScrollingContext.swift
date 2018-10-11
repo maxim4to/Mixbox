@@ -8,7 +8,7 @@ final class ScrollingContext {
     private let maxScrollingAttempts = 100
     private let scrollingHintsProvider: ScrollingHintsProvider
     private let elementVisibilityChecker: ElementVisibilityChecker
-    private let minimalPercentageOfVisibleArea: CGFloat
+    private let visibilityCheckSettings: VisibilityCheckSettings
     private let elementResolver: ElementResolver
     private let expectedIndexOfSnapshotInResolvedElementQuery: Int
     
@@ -31,7 +31,7 @@ final class ScrollingContext {
         resolvedElementQuery: ResolvedElementQuery,
         scrollingHintsProvider: ScrollingHintsProvider,
         elementVisibilityChecker: ElementVisibilityChecker,
-        minimalPercentageOfVisibleArea: CGFloat,
+        visibilityCheckSettings: VisibilityCheckSettings,
         elementResolver: ElementResolver)
     {
         self.snapshot = snapshot
@@ -39,7 +39,7 @@ final class ScrollingContext {
         self.resolvedElementQuery = resolvedElementQuery
         self.scrollingHintsProvider = scrollingHintsProvider
         self.elementVisibilityChecker = elementVisibilityChecker
-        self.minimalPercentageOfVisibleArea = minimalPercentageOfVisibleArea
+        self.visibilityCheckSettings = visibilityCheckSettings
         self.elementResolver = elementResolver
     }
     
@@ -146,11 +146,12 @@ final class ScrollingContext {
                 {
                     let isTargetElement = (elementUniqueIdentifier == targetElementIdentifier)
                     let currentElementMinimalPercentageOfVisibleArea = isTargetElement
-                        ? minimalPercentageOfVisibleArea
-                        : 1.0
+                        ? visibilityCheckSettings.minimalPercentageOfVisibleArea
+                        : 1.0 // lets require container to be fully visible. TODO: better scrolling to container
                     
                     let percentageOfVisibleArea = elementVisibilityChecker.percentageOfVisibleArea(
-                        elementUniqueIdentifier: elementUniqueIdentifier
+                        elementUniqueIdentifier: elementUniqueIdentifier,
+                        blendingThreshold: visibilityCheckSettings.blendingThreshold
                     )
                     
                     let elementIsSufficientlyVisible = percentageOfVisibleArea >= currentElementMinimalPercentageOfVisibleArea

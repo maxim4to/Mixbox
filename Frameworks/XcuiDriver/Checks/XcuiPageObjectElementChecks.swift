@@ -39,25 +39,23 @@ final class XcuiPageObjectElementChecks: AlmightyElementChecks {
     @discardableResult
     private func performCheck(
         checkSettings: CheckSettings,
-        minimalPercentageOfVisibleArea: CGFloat = 0.2,
+        defaultMinimalPercentageOfVisibleArea: CGFloat = 0.2,
         check: @escaping (_ snapshot: ElementSnapshot) -> InteractionSpecificResult)
         -> Bool
     {
         let interaction = interactionFactory.checkInteraction(
             specificImplementation: InteractionSpecificImplementation(execute: check),
-            settings: resolvedInteractionSettings(interactionSettings: checkSettings),
-            minimalPercentageOfVisibleArea: minimalPercentageOfVisibleArea
+            settings: ResolvedInteractionSettings(
+                interactionSettings: checkSettings,
+                elementSettings: elementSettings,
+                pollingConfiguration: pollingConfiguration,
+                defaultVisibilityCheckSettings: VisibilityCheckSettings(
+                    minimalPercentageOfVisibleArea: defaultMinimalPercentageOfVisibleArea
+                )
+            )
         )
         
         return perform(interaction: interaction)
-    }
-    
-    private func resolvedInteractionSettings(interactionSettings: InteractionSettings) -> ResolvedInteractionSettings {
-        return ResolvedInteractionSettings(
-            interactionSettings: interactionSettings,
-            elementSettings: elementSettings,
-            pollingConfiguration: pollingConfiguration
-        )
     }
     
     private func perform(interaction: Interaction) -> Bool {
@@ -127,11 +125,10 @@ final class XcuiPageObjectElementChecks: AlmightyElementChecks {
     
     func matches(
         checkSettings: CheckSettings,
-        minimalPercentageOfVisibleArea: CGFloat,
         matcher: @escaping (ElementMatcherBuilder) -> ElementMatcher)
         -> Bool
     {
-        return performCheck(checkSettings: checkSettings, minimalPercentageOfVisibleArea: minimalPercentageOfVisibleArea) { snapshot in
+        return performCheck(checkSettings: checkSettings, defaultMinimalPercentageOfVisibleArea: 0.2) { snapshot in
             let matcher = ElementMatcherBuilder.build(matcher)
             
             switch matcher.matches(value: snapshot) {
@@ -160,12 +157,21 @@ final class XcuiPageObjectElementChecks: AlmightyElementChecks {
     func isNotDisplayed(checkSettings: CheckSettings) -> Bool {
         return perform(
             interaction: interactionFactory.checkForNotDisplayedInteraction(
-                settings: resolvedInteractionSettings(interactionSettings: checkSettings),
-                // Пример: если 0.42, то все, что будет видно более (>=) чем на 42% будет фейлить проверку.
-                // Если элемент будет виден на 41%, то мы посчитаем проверку успешной.
-                // Пример: если 0.0, то будет видимым всегда посчитается видимым (0.0 >= 0.0).
-                // Поэтому сейчас такое значение:
-                minimalPercentageOfVisibleArea: 0.00001
+                settings: ResolvedInteractionSettings(
+                    interactionSettings: checkSettings,
+                    elementSettings: elementSettings,
+                    // We can not set 0.0 value unfortunately. Because the check is "greater or equal".
+                    // E.g. minimalPercentageOfVisibleArea == 0.0
+                    //      actualPercentage == 0.0
+                    //      actualPercentage >= minimalPercentageOfVisibleArea
+                    //      element is visible (but it is not)
+                    //      TODO: it doesn't look cool. fix it.
+                    pollingConfiguration: pollingConfiguration,
+                    defaultVisibilityCheckSettings: VisibilityCheckSettings(
+                        minimalPercentageOfVisibleArea: 0.00001
+                        // TODO: Higher blending theshold (1.0)
+                    )
+                )
             )
         )
     }
@@ -177,7 +183,7 @@ final class XcuiPageObjectElementChecks: AlmightyElementChecks {
     }
     
     func isInHierarchy(checkSettings: CheckSettings) -> Bool {
-        return performCheck(checkSettings: checkSettings, minimalPercentageOfVisibleArea: 0.0) { _ in
+        return performCheck(checkSettings: checkSettings, defaultMinimalPercentageOfVisibleArea: 0.0) { _ in
             .success // без специфики, проверка на видимость встроена по дефолту
         }
     }
@@ -299,7 +305,8 @@ final class XcuiPageObjectElementChecks: AlmightyElementChecks {
     }
     
     func matchesReference(snapshot snapshotName: String, checkSettings: CheckSettings) -> Bool {
-        return performCheck(checkSettings: checkSettings, minimalPercentageOfVisibleArea: 1) {
+        // TODO: defaultMinimalPercentageOfVisibleArea => 1.0, high blendingThreshold
+        return performCheck(checkSettings: checkSettings, defaultMinimalPercentageOfVisibleArea: 0.0) {
             [weak self] (snapshot: ElementSnapshot) -> InteractionSpecificResult in
             
             guard let strongSelf = self else {
@@ -335,7 +342,8 @@ final class XcuiPageObjectElementChecks: AlmightyElementChecks {
     }
     
     func matchesReference(image: UIImage, checkSettings: CheckSettings) -> Bool {
-        return performCheck(checkSettings: checkSettings, minimalPercentageOfVisibleArea: 0.0) {
+        // TODO: defaultMinimalPercentageOfVisibleArea => 1.0, high blendingThreshold
+        return performCheck(checkSettings: checkSettings, defaultMinimalPercentageOfVisibleArea: 0.0) {
             [weak self] (snapshot: ElementSnapshot) -> InteractionSpecificResult in
             
             guard let strongSelf = self else {

@@ -36,14 +36,17 @@ public extension XCUIElement {
         return enhancedAccessibilityValue.customValues
     }
     
-    public func percentageOfVisibleArea(ipcClient: IpcClient) -> CGFloat? {
+    public func percentageOfVisibleArea(ipcClient: IpcClient, blendingThreshold: CGFloat) -> CGFloat? {
         guard let enhancedAccessibilityValue = enhancedAccessibilityValue else {
             return nil
         }
         
         let result = ipcClient.call(
             method: PercentageOfVisibleAreaIpcMethod(),
-            arguments: enhancedAccessibilityValue.uniqueIdentifier
+            arguments: PercentageOfVisibleAreaIpcMethod.Arguments(
+                viewId: enhancedAccessibilityValue.uniqueIdentifier,
+                blendingThreshold: blendingThreshold
+            )
         )
         
         // TODO: Replace nil with 0 in PercentageOfVisibleAreaIpcMethodHandler?

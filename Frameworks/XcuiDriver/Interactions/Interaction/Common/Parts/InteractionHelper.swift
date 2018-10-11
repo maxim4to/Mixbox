@@ -3,16 +3,17 @@ import XCTest
 
 // TODO: We must split this in parts.
 final class InteractionHelper {
+    // TODO: Remove propertires that are already in interactionSettings
     private let messagePrefix: String
     private let elementVisibilityChecker: ElementVisibilityChecker
     private let elementSettings: ElementSettings
     private let interactionName: String
-    private let minimalPercentageOfVisibleArea: CGFloat
     private let searchTimeout: TimeInterval
     private let scroller: Scroller
     private let elementResolver: ElementResolver
     private let pollingConfiguration: PollingConfiguration
     private let snapshotCaches: SnapshotCaches
+    private let interactionSettings: ResolvedInteractionSettings
     
     // State:
     private var startDateOfInteraction = Date()
@@ -24,11 +25,11 @@ final class InteractionHelper {
         scrollingHintsProvider: ScrollingHintsProvider,
         elementFinder: ElementFinder,
         interactionSettings: ResolvedInteractionSettings,
-        minimalPercentageOfVisibleArea: CGFloat,
         snapshotCaches: SnapshotCaches)
     {
         self.messagePrefix = messagePrefix
         self.elementVisibilityChecker = elementVisibilityChecker
+        self.interactionSettings = interactionSettings
         self.elementSettings = interactionSettings.elementSettings
         self.elementResolver = ElementResolverImpl(
             elementFinder: elementFinder,
@@ -37,12 +38,11 @@ final class InteractionHelper {
         self.scroller = Scroller(
             scrollingHintsProvider: scrollingHintsProvider,
             elementVisibilityChecker: elementVisibilityChecker,
-            minimalPercentageOfVisibleArea: minimalPercentageOfVisibleArea,
+            visibilityCheckSettings: interactionSettings.visibilityCheckSettings,
             elementResolver: elementResolver
         )
         
         self.interactionName = interactionSettings.interactionName
-        self.minimalPercentageOfVisibleArea = minimalPercentageOfVisibleArea
         
         let defaultTimeout: TimeInterval = 15
         self.searchTimeout = interactionSettings.elementSettings.searchTimeout ?? defaultTimeout
@@ -259,9 +259,12 @@ final class InteractionHelper {
             }
             
             let percentageOfVisibleArea = alreadyCalculatedPercentageOfVisibleArea
-                ?? elementVisibilityChecker.percentageOfVisibleArea(snapshot: snapshot)
+                ?? elementVisibilityChecker.percentageOfVisibleArea(
+                    snapshot: snapshot,
+                    blendingThreshold: interactionSettings.visibilityCheckSettings.blendingThreshold
+                )
             
-            let elementIsSufficientlyVisible = percentageOfVisibleArea >= minimalPercentageOfVisibleArea
+            let elementIsSufficientlyVisible = percentageOfVisibleArea >= interactionSettings.visibilityCheckSettings.minimalPercentageOfVisibleArea
             
             if elementIsSufficientlyVisible {
                 let result = interactionSpecificImplementation.perform(
@@ -310,7 +313,7 @@ final class InteractionHelper {
         return failureResult(
             message: "элемент не полностью видим"
                 + " (видимая площадь: \(percentageOfVisibleArea),"
-                + " ожидалось: \(minimalPercentageOfVisibleArea))"
+                + " ожидалось: \(interactionSettings.visibilityCheckSettings.minimalPercentageOfVisibleArea))"
                 + (suffix ?? "")
         )
     }

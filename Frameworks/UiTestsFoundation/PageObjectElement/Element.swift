@@ -66,4 +66,16 @@ extension Element {
     public func with(searchTimeout: TimeInterval?) -> Self {
         return with(settings: implementation.settings.with(searchTimeout: searchTimeout))
     }
+    
+    public func with(visibilityCheckSettingsCustomization: VisibilityCheckSettingsCustomization) -> Self {
+        return with(settings: implementation.settings.with(visibilityCheckSettingsCustomization: visibilityCheckSettingsCustomization))
+    }
+    
+    public func with(minimalPercentageOfVisibleArea: CGFloat?) -> Self {
+        return with(settings: implementation.settings.with(minimalPercentageOfVisibleArea: minimalPercentageOfVisibleArea))
+    }
+    
+    public func with(blendingThresholdForVisibilityCheck: CGFloat?) -> Self {
+        return with(settings: implementation.settings.with(blendingThresholdForVisibilityCheck: blendingThresholdForVisibilityCheck))
+    }
 }

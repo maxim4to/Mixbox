@@ -5,18 +5,18 @@ import MixboxIpcCommon
 final class Scroller {
     private let scrollingHintsProvider: ScrollingHintsProvider
     private let elementVisibilityChecker: ElementVisibilityChecker
-    private let minimalPercentageOfVisibleArea: CGFloat
+    private let visibilityCheckSettings: VisibilityCheckSettings
     private let elementResolver: ElementResolver
     
     init(
         scrollingHintsProvider: ScrollingHintsProvider,
         elementVisibilityChecker: ElementVisibilityChecker,
-        minimalPercentageOfVisibleArea: CGFloat,
+        visibilityCheckSettings: VisibilityCheckSettings,
         elementResolver: ElementResolver)
     {
         self.scrollingHintsProvider = scrollingHintsProvider
         self.elementVisibilityChecker = elementVisibilityChecker
-        self.minimalPercentageOfVisibleArea = minimalPercentageOfVisibleArea
+        self.visibilityCheckSettings = visibilityCheckSettings
         self.elementResolver = elementResolver
     }
     
@@ -44,10 +44,11 @@ final class Scroller {
                 //
                 // So in any case we must do the check if it is not comopletely off screen.
                 let percentageOfVisibleArea = elementVisibilityChecker.percentageOfVisibleArea(
-                    snapshot: snapshot
+                    snapshot: snapshot,
+                    blendingThreshold: visibilityCheckSettings.blendingThreshold
                 )
                 
-                let elementIsSufficientlyVisible = percentageOfVisibleArea >= minimalPercentageOfVisibleArea
+                let elementIsSufficientlyVisible = percentageOfVisibleArea >= visibilityCheckSettings.minimalPercentageOfVisibleArea
                 
                 if elementIsSufficientlyVisible {
                     // sufficiently visible
@@ -71,7 +72,7 @@ final class Scroller {
             resolvedElementQuery: resolvedElementQuery,
             scrollingHintsProvider: scrollingHintsProvider,
             elementVisibilityChecker: elementVisibilityChecker,
-            minimalPercentageOfVisibleArea: minimalPercentageOfVisibleArea,
+            visibilityCheckSettings: visibilityCheckSettings,
             elementResolver: elementResolver
         )
         

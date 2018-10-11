@@ -5,13 +5,17 @@ import Foundation
         return self.isDefinitelyHidden(alphaThreshold: 0.01)
     }
     
-    var percentageOfVisibleArea: CGFloat {
-        if self.isDefinitelyHidden(alphaThreshold: 0.1) {
+    // TODO: Remove this function and instantiation of impl.
+    func percentageOfVisibleArea(blendingThreshold: CGFloat) -> CGFloat {
+        if self.isDefinitelyHidden(alphaThreshold: blendingThreshold) {
             return 0
         }
         
         // This check is placed after the previous, because it is very expensive.
-        return CGFloat(VisibilityChecker.percentElementVisible(onScreen: self))
+        return VisibilityCheckerImpl().percentageOfVisibleArea(
+            view: self,
+            blendingThreshold: blendingThreshold
+        )
     }
     
     // TODO: Rename/refactor.
