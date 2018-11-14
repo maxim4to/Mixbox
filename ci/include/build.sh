@@ -23,7 +23,7 @@ buildWith_action_scheme_xcodebuildPipeFilter() {
     
     mkdir -p "$derivedDataPath"
     
-    cd "$MIXBOX_CI_REPO_ROOT/Tests"
+    cd "$MIXBOX_CI_REPO_ROOT/$MIXBOX_CI_PROJECT_FOLDER"
     
     if [ "$MIXBOX_CI_CACHE" == "use" ] && cmp Podfile.lock Pods/Manifest.lock
     then
@@ -36,7 +36,7 @@ buildWith_action_scheme_xcodebuildPipeFilter() {
 
     xcodebuild \
         "$action" \
-        -workspace Tests.xcworkspace \
+        -workspace "$MIXBOX_CI_WORKSPACE_NAME" \
         -scheme "$scheme" \
         -sdk iphonesimulator \
         -derivedDataPath "$derivedDataPath" \
