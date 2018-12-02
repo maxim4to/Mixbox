@@ -85,6 +85,9 @@
 		F8676EE2215533D2007DDB7C /* NestedCallbacksToAppIpcMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8676EE1215533D2007DDB7C /* NestedCallbacksToAppIpcMethod.swift */; };
 		F8676EE4215533D9007DDB7C /* NestedCallbacksToAppIpcMethodHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8676EE3215533D9007DDB7C /* NestedCallbacksToAppIpcMethodHandler.swift */; };
 		F8676EE52155370D007DDB7C /* NestedCallbacksToAppIpcMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8676EE1215533D2007DDB7C /* NestedCallbacksToAppIpcMethod.swift */; };
+		F8A2ACC121B2E07200B5334C /* WaitingForQuiescenceTestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A2ACC021B2E07200B5334C /* WaitingForQuiescenceTestsView.swift */; };
+		F8A2ACC321B2E3E300B5334C /* WaitingForQuiescenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A2ACC221B2E3E300B5334C /* WaitingForQuiescenceTests.swift */; };
+		F8A2ACC621B30C1500B5334C /* AnimationRemoverForTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A2ACC521B30C1500B5334C /* AnimationRemoverForTests.swift */; };
 		F8A395B72146CE40000E9E44 /* MovingElementTestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A395B62146CE40000E9E44 /* MovingElementTestsView.swift */; };
 		F8A395B9214701FE000E9E44 /* SituationsWhereHierarchyIsChangedOverTimeAreHandledProperlyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A395B8214701FE000E9E44 /* SituationsWhereHierarchyIsChangedOverTimeAreHandledProperlyTests.swift */; };
 		F8A395BB2147C243000E9E44 /* ChangingHierarchyTestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A395BA2147C243000E9E44 /* ChangingHierarchyTestsView.swift */; };
@@ -233,6 +236,9 @@
 		F8676EDB21552D74007DDB7C /* CallbackToAppIpcMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallbackToAppIpcMethod.swift; sourceTree = "<group>"; };
 		F8676EE1215533D2007DDB7C /* NestedCallbacksToAppIpcMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NestedCallbacksToAppIpcMethod.swift; sourceTree = "<group>"; };
 		F8676EE3215533D9007DDB7C /* NestedCallbacksToAppIpcMethodHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NestedCallbacksToAppIpcMethodHandler.swift; sourceTree = "<group>"; };
+		F8A2ACC021B2E07200B5334C /* WaitingForQuiescenceTestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitingForQuiescenceTestsView.swift; sourceTree = "<group>"; };
+		F8A2ACC221B2E3E300B5334C /* WaitingForQuiescenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitingForQuiescenceTests.swift; sourceTree = "<group>"; };
+		F8A2ACC521B30C1500B5334C /* AnimationRemoverForTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationRemoverForTests.swift; sourceTree = "<group>"; };
 		F8A395B62146CE40000E9E44 /* MovingElementTestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovingElementTestsView.swift; sourceTree = "<group>"; };
 		F8A395B8214701FE000E9E44 /* SituationsWhereHierarchyIsChangedOverTimeAreHandledProperlyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SituationsWhereHierarchyIsChangedOverTimeAreHandledProperlyTests.swift; sourceTree = "<group>"; };
 		F8A395BA2147C243000E9E44 /* ChangingHierarchyTestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangingHierarchyTestsView.swift; sourceTree = "<group>"; };
@@ -364,6 +370,7 @@
 		F813CAE8209CC5D400E6A27C /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				F8A2ACC421B30C0800B5334C /* AnimationRemover */,
 				F82086A6213D9CB200DCBA2D /* TouchDrawer */,
 				F857C9D420CD8BAB00E8BFF5 /* CustomIpc */,
 				F813CB09209CD82A00E6A27C /* Testing */,
@@ -414,6 +421,7 @@
 		F813CB11209CD82A00E6A27C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				F8A2ACBF21B2E04700B5334C /* WaitingForQuiescenceTests */,
 				F8E6CC9121878BF100D7A0C1 /* ApplicationBundleProviderTests */,
 				F8AA6FFF217E06B8007D8208 /* FakeCells */,
 				F8C7090D2153E3650015A10B /* NetworkStubbingTests */,
@@ -677,6 +685,22 @@
 			path = NestedCallbacks;
 			sourceTree = "<group>";
 		};
+		F8A2ACBF21B2E04700B5334C /* WaitingForQuiescenceTests */ = {
+			isa = PBXGroup;
+			children = (
+				F8A2ACC021B2E07200B5334C /* WaitingForQuiescenceTestsView.swift */,
+			);
+			path = WaitingForQuiescenceTests;
+			sourceTree = "<group>";
+		};
+		F8A2ACC421B30C0800B5334C /* AnimationRemover */ = {
+			isa = PBXGroup;
+			children = (
+				F8A2ACC521B30C1500B5334C /* AnimationRemoverForTests.swift */,
+			);
+			path = AnimationRemover;
+			sourceTree = "<group>";
+		};
 		F8A395BC2147C549000E9E44 /* ViewsWithClosures */ = {
 			isa = PBXGroup;
 			children = (
@@ -880,6 +904,7 @@
 			children = (
 				F8A395BE2147E4FC000E9E44 /* CanTapMovingElementTests.swift */,
 				F813CB2D209CDF3400E6A27C /* ActionsTests.swift */,
+				F8A2ACC221B2E3E300B5334C /* WaitingForQuiescenceTests.swift */,
 			);
 			path = Actions;
 			sourceTree = "<group>";
@@ -1320,7 +1345,9 @@
 				F813CB22209CD82A00E6A27C /* ChecksTestsView.swift in Sources */,
 				F8BCA9E2213D566400592068 /* ScreenshotTestsConstants.swift in Sources */,
 				F8274A462142DBE000A72C41 /* AssertingCustomValuesTestsView.swift in Sources */,
+				F8A2ACC621B30C1500B5334C /* AnimationRemoverForTests.swift in Sources */,
 				F84C4F3320E68FCA00DB35F2 /* FakeCellsReloadType.swift in Sources */,
+				F8A2ACC121B2E07200B5334C /* WaitingForQuiescenceTestsView.swift in Sources */,
 				F8EBBCBB213AB83F00D320A4 /* HierarchySourcesTestsView.swift in Sources */,
 				F8676EDA21552D68007DDB7C /* CallbackToAppIpcMethodHandler.swift in Sources */,
 				F813CB1E209CD82A00E6A27C /* ButtonWithClosures.swift in Sources */,
@@ -1376,6 +1403,7 @@
 				F8A9D342216B894800EC5D24 /* TestSuiteInfo.m in Sources */,
 				F8D5392020A0870900733C93 /* BasePageObject.swift in Sources */,
 				F8C7091D2153F3F70015A10B /* IpcCallbacksTests.swift in Sources */,
+				F8A2ACC321B2E3E300B5334C /* WaitingForQuiescenceTests.swift in Sources */,
 				F8D5392420A0878400733C93 /* PageObjects.swift in Sources */,
 				F8A395B9214701FE000E9E44 /* SituationsWhereHierarchyIsChangedOverTimeAreHandledProperlyTests.swift in Sources */,
 				F813CB30209CDF3400E6A27C /* ChecksTests.swift in Sources */,

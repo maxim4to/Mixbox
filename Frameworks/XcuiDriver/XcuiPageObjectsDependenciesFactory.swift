@@ -11,6 +11,7 @@ public final class XcuiPageObjectDependenciesFactory: PageObjectDependenciesFact
     private let snapshotsComparisonUtility: SnapshotsComparisonUtility
     private let stepLogger: StepLogger
     private let pollingConfiguration: PollingConfiguration
+    private let shouldInsertDelayBeforeActions: Bool
     private let snapshotCaches: SnapshotCaches
     private let elementFinder: ElementFinder
     
@@ -21,6 +22,7 @@ public final class XcuiPageObjectDependenciesFactory: PageObjectDependenciesFact
         snapshotsComparisonUtility: SnapshotsComparisonUtility,
         stepLogger: StepLogger,
         pollingConfiguration: PollingConfiguration,
+        shouldInsertDelayBeforeActions: Bool,
         snapshotCaches: SnapshotCaches,
         elementFinder: ElementFinder)
     {
@@ -30,6 +32,7 @@ public final class XcuiPageObjectDependenciesFactory: PageObjectDependenciesFact
         self.snapshotsComparisonUtility = snapshotsComparisonUtility
         self.stepLogger = stepLogger
         self.pollingConfiguration = pollingConfiguration
+        self.shouldInsertDelayBeforeActions = shouldInsertDelayBeforeActions
         self.snapshotCaches = snapshotCaches
         self.elementFinder = elementFinder
     }
@@ -53,7 +56,8 @@ public final class XcuiPageObjectDependenciesFactory: PageObjectDependenciesFact
                 pollingConfiguration: pollingConfiguration,
                 snapshotCaches: snapshotCaches,
                 elementFinder: elementFinder
-            )
+            ),
+            shouldInsertDelayBeforeActions: shouldInsertDelayBeforeActions
         )
     }
 }

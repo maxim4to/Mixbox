@@ -104,6 +104,7 @@ final class TestCaseUtils {
                 snapshotsComparisonUtility: snapshotsComparisonUtility,
                 stepLogger: stepLogger,
                 pollingConfiguration: .reduceLatency,
+                shouldInsertDelayBeforeActions: false,
                 snapshotCaches: SnapshotCachesImpl.create(cachingEnabled: false),
                 elementFinder: elementFinder
             )

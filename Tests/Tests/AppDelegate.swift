@@ -26,6 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             mixboxInAppServices.start()
             mixboxInAppServices.handleUiBecomeVisible()
+
+            AnimationRemoverForTests.setUp()
         }
         #endif
         

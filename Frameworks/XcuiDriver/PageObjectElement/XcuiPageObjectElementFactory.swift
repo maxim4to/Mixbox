@@ -3,10 +3,15 @@ import MixboxUiTestsFoundation
 final class XcuiPageObjectElementFactory: PageObjectElementFactory {
     // MARK: - Private properties
     private let xcuiHelperFactory: XcuiHelperFactory
+    private let shouldInsertDelayBeforeActions: Bool
     
     // MARK: - Init
-    init(xcuiHelperFactory: XcuiHelperFactory) {
+    init(
+        xcuiHelperFactory: XcuiHelperFactory,
+        shouldInsertDelayBeforeActions: Bool)
+    {
         self.xcuiHelperFactory = xcuiHelperFactory
+        self.shouldInsertDelayBeforeActions = shouldInsertDelayBeforeActions
     }
     
     // MARK: - PageObjectElementFactory
@@ -20,7 +25,8 @@ final class XcuiPageObjectElementFactory: PageObjectElementFactory {
             interactionFactory: xcuiHelperFactory.interactionFactory(),
             elementVisibilityChecker: xcuiHelperFactory.elementVisibilityChecker(),
             keyboardEventInjector: xcuiHelperFactory.keyboardEventInjector(),
-            pollingConfiguration: xcuiHelperFactory.pollingConfiguration()
+            pollingConfiguration: xcuiHelperFactory.pollingConfiguration(),
+            shouldInsertDelayBeforeActions: shouldInsertDelayBeforeActions
         )
         
         let checks = XcuiPageObjectElementChecks(

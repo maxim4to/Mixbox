@@ -14,6 +14,7 @@ final class XcuiPageObjectElementActions: AlmightyElementActions {
     private let elementVisibilityChecker: ElementVisibilityChecker
     private let keyboardEventInjector: KeyboardEventInjector
     private let pollingConfiguration: PollingConfiguration
+    private let shouldInsertDelayBeforeActions: Bool // see `insertDelayBeforeAction`
     
     init(
         elementSettings: ElementSettings,
@@ -21,7 +22,8 @@ final class XcuiPageObjectElementActions: AlmightyElementActions {
         interactionFactory: InteractionFactory,
         elementVisibilityChecker: ElementVisibilityChecker,
         keyboardEventInjector: KeyboardEventInjector,
-        pollingConfiguration: PollingConfiguration)
+        pollingConfiguration: PollingConfiguration,
+        shouldInsertDelayBeforeActions: Bool)
     {
         self.elementSettings = elementSettings
         self.interactionPerformerFactory = interactionPerformerFactory
@@ -29,6 +31,7 @@ final class XcuiPageObjectElementActions: AlmightyElementActions {
         self.elementVisibilityChecker = elementVisibilityChecker
         self.keyboardEventInjector = keyboardEventInjector
         self.pollingConfiguration = pollingConfiguration
+        self.shouldInsertDelayBeforeActions = shouldInsertDelayBeforeActions
     }
     
     // MARK: - AlmightyElementActions
@@ -40,7 +43,8 @@ final class XcuiPageObjectElementActions: AlmightyElementActions {
             interactionFactory: interactionFactory,
             elementVisibilityChecker: elementVisibilityChecker,
             keyboardEventInjector: keyboardEventInjector,
-            pollingConfiguration: pollingConfiguration
+            pollingConfiguration: pollingConfiguration,
+            shouldInsertDelayBeforeActions: shouldInsertDelayBeforeActions
         )
     }
     
@@ -50,13 +54,14 @@ final class XcuiPageObjectElementActions: AlmightyElementActions {
         actionSettings: ActionSettings)
     {
         return perform(actionSettings: actionSettings) {
-            (snapshot: ElementSnapshot) -> InteractionSpecificResult in
+            [weak self] (snapshot: ElementSnapshot) -> InteractionSpecificResult in
             
             let tappableWrapper = snapshot.tappableWrapper(
                 normalizedCoordinate: normalizedCoordinate,
                 absoluteOffset: absoluteOffset
             )
             
+            self?.insertDelayBeforeAction()
             tappableWrapper.tap()
             
             return .success
@@ -70,13 +75,14 @@ final class XcuiPageObjectElementActions: AlmightyElementActions {
         actionSettings: ActionSettings)
     {
         return perform(actionSettings: actionSettings) {
-            (snapshot: ElementSnapshot) -> InteractionSpecificResult in
+            [weak self] (snapshot: ElementSnapshot) -> InteractionSpecificResult in
             
             let tappableWrapper = snapshot.tappableWrapper(
                 normalizedCoordinate: normalizedCoordinate,
                 absoluteOffset: absoluteOffset
             )
             
+            self?.insertDelayBeforeAction()
             tappableWrapper.press(forDuration: duration)
             
             return .success
@@ -103,6 +109,7 @@ final class XcuiPageObjectElementActions: AlmightyElementActions {
             )
             
             // Make element focused
+            strongSelf.insertDelayBeforeAction()
             tappableWrapper.tap()
         
             strongSelf.waitUntilKeyboardFocusIsGained(
@@ -147,6 +154,7 @@ final class XcuiPageObjectElementActions: AlmightyElementActions {
                 absoluteOffset: absoluteOffset
             )
             
+            strongSelf.insertDelayBeforeAction()
             tappableWrapper.tap()
             
             strongSelf.waitUntilKeyboardFocusIsGained(
@@ -182,6 +190,7 @@ final class XcuiPageObjectElementActions: AlmightyElementActions {
             
             UIPasteboard.general.string = text
             
+            strongSelf.insertDelayBeforeAction()
             tappableWrapper.tap()
             
             strongSelf.perform(actionSettings: actionSettings) {
@@ -222,15 +231,22 @@ final class XcuiPageObjectElementActions: AlmightyElementActions {
         actionSettings: ActionSettings)
     {
         return perform(actionSettings: actionSettings) {
-            (snapshot: ElementSnapshot) -> InteractionSpecificResult in
+            [weak self] (snapshot: ElementSnapshot) -> InteractionSpecificResult in
+            
+            guard let strongSelf = self else {
+                return .failureWithMessage("Внутренняя ошибка, смотри код: \(#file):\(#line)")
+            }
             
             let tappableWrapper = snapshot.tappableWrapper(
                 normalizedCoordinate: normalizedCoordinate,
                 absoluteOffset: absoluteOffset
             )
             
+            strongSelf.insertDelayBeforeAction()
             tappableWrapper.tap()
+            
             // TODO: Reload snapshots
+            strongSelf.insertDelayBeforeAction()
             tappableWrapper.press(forDuration: 1)
             
             let selectAllButton = XcuiPageObjectElementActions.menuItem(
@@ -263,13 +279,18 @@ final class XcuiPageObjectElementActions: AlmightyElementActions {
         actionSettings: ActionSettings)
     {
         return perform(actionSettings: actionSettings) {
-            (snapshot: ElementSnapshot) -> InteractionSpecificResult in
+            [weak self] (snapshot: ElementSnapshot) -> InteractionSpecificResult in
+            
+            guard let strongSelf = self else {
+                return .failureWithMessage("Внутренняя ошибка, смотри код: \(#file):\(#line)")
+            }
             
             let tappableWrapper = snapshot.tappableWrapper(
                 normalizedCoordinate: normalizedCoordinate,
                 absoluteOffset: absoluteOffset
             )
             
+            strongSelf.insertDelayBeforeAction()
             tappableWrapper.tap()
             
             let value = snapshot.visibleText(fallback: snapshot.accessibilityValue as? String) ?? ""
@@ -289,8 +310,13 @@ final class XcuiPageObjectElementActions: AlmightyElementActions {
         actionSettings: ActionSettings)
     {
         return perform(actionSettings: actionSettings) {
-            (snapshot: ElementSnapshot) -> InteractionSpecificResult in
+            [weak self] (snapshot: ElementSnapshot) -> InteractionSpecificResult in
             
+            guard let strongSelf = self else {
+                return .failureWithMessage("Внутренняя ошибка, смотри код: \(#file):\(#line)")
+            }
+            
+            strongSelf.insertDelayBeforeAction()
             snapshot.swipe(direction: direction)
             
             return .success
@@ -374,6 +400,21 @@ final class XcuiPageObjectElementActions: AlmightyElementActions {
             }
         } else {
             assertionFailure("attempts should be > 0")
+        }
+    }
+    
+    // There is a problem that is reproduced under heavy load (when multiple simulators are active),
+    // It seems that taps are either lost or UI is not ready for tap,
+    // for example if new screen is opened (view controller is pushed)
+    // and tap occures immediately. I didn't reproduce it on a local machine
+    // and the bug is flaky.
+    // The workaround is to add a sleep. `_waitForQuiescence` is called by XCUI itself
+    // before action, so it is not really needed. However, I don't know what is really
+    // needed. Sleeping is also a bad practice.
+    private func insertDelayBeforeAction() {
+        if shouldInsertDelayBeforeActions {
+            Thread.sleep(forTimeInterval: 5)
+            XCUIApplication()._waitForQuiescence()
         }
     }
 }
