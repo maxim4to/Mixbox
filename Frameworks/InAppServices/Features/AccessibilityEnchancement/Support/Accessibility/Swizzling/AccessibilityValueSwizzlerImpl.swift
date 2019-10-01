@@ -22,7 +22,7 @@ public final class AccessibilityValueSwizzlerImpl: AccessibilityValueSwizzler {
         switch os {
         case 9, 10:
             swizzleForIos9or10()
-        case 11, 12:
+        case 11, 12, 13:
             swizzleForIos11or12()
         default:
             assertionFailure("Unknown iOS \(os), make sure that accessibilityValue is swizzled correctly")
