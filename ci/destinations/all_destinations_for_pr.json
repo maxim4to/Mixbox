@@ -28,17 +28,31 @@
         }
     },
     {
-		"testDestination": {
-			"deviceType": "iPhone X",
-			"iOSVersion": "12.4",
-			"iOSVersionShort": "12.4",
-			"iOSVersionLong": "12.4",
+        "testDestination": {
+            "deviceType": "iPhone X",
+            "iOSVersion": "12.4",
+            "iOSVersionShort": "12.4",
+            "iOSVersionLong": "12.4",
             "deviceTypeId": "com.apple.CoreSimulator.SimDeviceType.iPhone-X",
             "runtimeId": "com.apple.CoreSimulator.SimRuntime.iOS-12-4"
+        },
+        "reportOutput": {
+            "junit": "tests-artifacts/iphone_x_ios_124.xml",
+            "tracingReport": "tests-artifacts/iphone_x_ios_124.trace"
+        }
+    },
+    {
+		"testDestination": {
+			"deviceType": "iPhone 11 Pro Max",
+			"iOSVersion": "13.0",
+			"iOSVersionShort": "13.0",
+			"iOSVersionLong": "13.0",
+            "deviceTypeId": "com.apple.CoreSimulator.SimDeviceType.iPhone-11-Pro-Max",
+            "runtimeId": "com.apple.CoreSimulator.SimRuntime.iOS-13-0"
 		},
 		"reportOutput": {
-			"junit": "tests-artifacts/iphone_x_ios_124.xml",
-			"tracingReport": "tests-artifacts/iphone_x_ios_124.trace"
+			"junit": "tests-artifacts/iphone_11_pro_max_ios_130.xml",
+			"tracingReport": "tests-artifacts/iphone_11_pro_max_ios_130.trace"
 		}
 	}
 ]
