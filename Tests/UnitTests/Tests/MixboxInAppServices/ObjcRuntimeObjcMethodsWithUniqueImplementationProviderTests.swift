@@ -26,21 +26,19 @@ final class ObjcRuntimeObjcMethodsWithUniqueImplementationProviderTests: TestCas
             )
         ]
         
-        // There is some kind of proxy that is not NSProxy that creates selectors for everything
-        // on iOS 12 (12.1, 12.4, maybe others)
-        if UiDeviceIosVersionProvider(uiDevice: UIDevice.current).iosVersion().majorVersion == 12,
-            let `class` = NSClassFromString("_PFPlaceholderMulticaster"),
-            let method = class_getInstanceMethod(`class`, selector)
-        {
-            expectedMethods.append(
-                ObjcMethodWithUniqueImplementation(
-                    class: `class`,
-                    method: method
-                )
-            )
+        let whitelistedClassNames: Set<String> = [
+            "UIKeyboardCandidateViewState",
+            "UIKeyboardCandidateViewStyle",
+            "_PFPlaceholderMulticaster"
+        ]
+        
+        // There are some kind of proxy classes (that are not NSProxy) that creates selectors for everything
+        // on iOS 12 & 13 after getting selectors for that classes
+        let patchedActualMethods = actualMethods.filter { (method: ObjcMethodWithUniqueImplementation) -> Bool in
+            !whitelistedClassNames.contains(NSStringFromClass(method.class))
         }
         
-        XCTAssertEqual(actualMethods.sorted(), expectedMethods.sorted())
+        XCTAssertEqual(patchedActualMethods.sorted(), expectedMethods.sorted())
     }
 }
 
